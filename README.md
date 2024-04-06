@@ -2,9 +2,12 @@
 **Star My Repo if you think it is useful, THX**
 
 ## Demo Result
-Turn annoucement on the website ![image](https://github.com/hac-ohmygod0193/E3_HW_Reminder/assets/62164142/d41127a8-4230-4b93-a03c-5845cc4506fc)
+Turn annoucement on the website
+
+![image](https://github.com/hac-ohmygod0193/E3_HW_Reminder/assets/62164142/d41127a8-4230-4b93-a03c-5845cc4506fc)
 
 Into Line Notification
+
 ![image](https://github.com/hac-ohmygod0193/E3_HW_Reminder/assets/62164142/c950f5a1-1d50-4a85-817b-f71a127e20b1)
 
 ## Source of Inspiration
