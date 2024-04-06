@@ -6,7 +6,7 @@ from langchain_google_genai import (
     HarmCategory,
 )
 import google.generativeai as genai
-
+import os
 # Load environment variables
 e3p_cookie = os.environ["E3P_COOKIE"]
 GOOGLE_API_KEY = os.environ["GOOGLE_API_KEY"]
