@@ -7,6 +7,11 @@ from langchain_google_genai import (
 )
 import google.generativeai as genai
 import os
+import datetime
+
+current_time = datetime.datetime.now()
+current_date = current_time.date()
+
 # Load environment variables
 e3p_cookie = os.environ["E3P_COOKIE"]
 GOOGLE_API_KEY = os.environ["GOOGLE_API_KEY"]
@@ -63,7 +68,7 @@ def send_e3_hw_announcement(url: str):
     soup = BeautifulSoup(html, "html.parser")
     headlines = soup.find_all(name="h3", attrs={"class": "name d-inline-block"})
     tags = soup.find_all(name="div", attrs={"class": "event mt-3"})
-
+    lineNotifyMessage(line_notify_token, "\n今天日期: " + str(current_date) + '\n' + "以下是最新的作業公告: ")
     for i in range(len(tags)):
         block = tags[i]
         headline = headlines[i]
