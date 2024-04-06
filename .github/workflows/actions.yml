@@ -5,7 +5,7 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
   schedule:
-    - cron: '0 */24 * * *' # run every 3 hours
+    - cron: '0 6 * * *' # run every 3 hours
 jobs:
   build:
     runs-on: ubuntu-latest
