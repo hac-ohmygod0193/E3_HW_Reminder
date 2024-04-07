@@ -83,7 +83,7 @@ def send_e3_hw_announcement(url: str):
             if date_match:
                 date = date_match.group(0)
                 date_obj = datetime.datetime.strptime(date, "%m月 %d日")
-                delta = date_obj - current_date
+                delta = date_obj.date() - current_date
                 if delta.days <= 3:
                     continue
                 else:
