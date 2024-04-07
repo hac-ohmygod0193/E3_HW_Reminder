@@ -78,6 +78,16 @@ def send_e3_hw_announcement(url: str):
         for title in block_title:
             if title.text == '課程事件':
                 continue
+            date_pattern = r"\d{2}月 \d{2}日"
+            date_match = re.search(date_pattern, title.text)
+            if date_match:
+                date = date_match.group(0)
+                date_obj = datetime.datetime.strptime(date, "%m月 %d日")
+                three_days_from_today = current_date + datetime.timedelta(days=3)
+                if date_obj == three_days_from_today:
+                    continue
+                else:
+                    break
             message += title.text + '\n\n'
 
         llm_prompt = prompt.format(
