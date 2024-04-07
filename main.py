@@ -69,6 +69,7 @@ def send_e3_hw_announcement(url: str):
     headlines = soup.find_all(name="h3", attrs={"class": "name d-inline-block"})
     tags = soup.find_all(name="div", attrs={"class": "event mt-3"})
     lineNotifyMessage(line_notify_token, "\n今天日期: " + str(current_date) + '\n' + "近三日截止的作業公告: ")
+    more_than_3_days = False
     for i in range(len(tags)):
         block = tags[i]
         headline = headlines[i]
@@ -93,14 +94,18 @@ def send_e3_hw_announcement(url: str):
                     if 0 <= delta.days <= 3:
                         continue
                     else:
+                        more_tahn_3_days = True
                         break
+            message += title.text + '\n\n'
+        if more_than_3_days:
+            break
             message += title.text + '\n\n'
 
         llm_prompt = prompt.format(
             message=message
         )
         response = gemini_pro.invoke(llm_prompt).content
-        response = response.replace('*', '').replace('-', '')
+        response = response.replace('*', '\n').replace('-', '')
         lineNotifyMessage(line_notify_token, '\n' + response)
 
 url = 'https://e3p.nycu.edu.tw/calendar/view.php?view=upcoming'
