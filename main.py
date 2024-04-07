@@ -8,7 +8,7 @@ from langchain_google_genai import (
 import google.generativeai as genai
 import os
 import datetime
-
+import re
 current_time = datetime.datetime.now()
 current_date = current_time.date()
 print(current_time)
