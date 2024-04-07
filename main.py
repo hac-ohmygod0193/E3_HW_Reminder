@@ -11,7 +11,7 @@ import datetime
 
 current_time = datetime.datetime.now()
 current_date = current_time.date()
-
+print(current_time)
 # Load environment variables
 e3p_cookie = os.environ["E3P_COOKIE"]
 GOOGLE_API_KEY = os.environ["GOOGLE_API_KEY"]
