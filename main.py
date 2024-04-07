@@ -83,12 +83,17 @@ def send_e3_hw_announcement(url: str):
             if date_match:
                 date = date_match.group(0)
                 date_obj = datetime.datetime.strptime(date, "%m月 %d日")
+                date_obj = date_obj.replace(year=current_date.year)
                 delta = date_obj.date() - current_date
-                print(delta.days)
-                if delta.days <= 3:
+                if 0 <= delta.days <= 3:
                     continue
                 else:
-                    break
+                    date_obj = date_obj.replace(year=current_date.year + 1)
+                    delta = date_obj.date() - current_date
+                    if 0 <= delta.days <= 3:
+                        continue
+                    else:
+                        break
             message += title.text + '\n\n'
 
         llm_prompt = prompt.format(
