@@ -68,8 +68,10 @@ def send_e3_hw_announcement(url: str):
     soup = BeautifulSoup(html, "html.parser")
     headlines = soup.find_all(name="h3", attrs={"class": "name d-inline-block"})
     tags = soup.find_all(name="div", attrs={"class": "event mt-3"})
-    lineNotifyMessage(line_notify_token, "\n今天日期: " + str(current_date) + '\n' + "近三日截止的作業公告: ")
-    more_than_3_days = False
+    final_message = ""
+    final_message += "今天日期: " + str(current_date) + '\n' + "近三日的作業公告\n" + '=' * 16 + '\n'
+    more_than_n_days = False
+    hw_time_delta = 7
     for i in range(len(tags)):
         block = tags[i]
         headline = headlines[i]
@@ -86,27 +88,25 @@ def send_e3_hw_announcement(url: str):
                 date_obj = datetime.datetime.strptime(date, "%m月 %d日")
                 date_obj = date_obj.replace(year=current_date.year)
                 delta = date_obj.date() - current_date
-                if 0 <= delta.days <= 3:
-                    continue
+                if 0 <= delta.days <= hw_time_delta:
+                    pass
                 else:
                     date_obj = date_obj.replace(year=current_date.year + 1)
                     delta = date_obj.date() - current_date
-                    if 0 <= delta.days <= 3:
-                        continue
+                    if 0 <= delta.days <= hw_time_delta:
+                        pass
                     else:
-                        more_than_3_days = True
+                        more_than_n_days = True
                         break
-            message += title.text + '\n\n'
-        if more_than_3_days:
+            message += title.text + '\n'
+        if more_than_n_days:
             break
-        message += title.text + '\n\n'
-
-        llm_prompt = prompt.format(
-            message=message
-        )
+        print(message)
+        llm_prompt = prompt.format(message=message)
         response = gemini_pro.invoke(llm_prompt).content
         response = response.replace('*', '').replace('-', '')
-        lineNotifyMessage(line_notify_token, '\n' + response)
+        final_message += (message + '\n'+ '=' * 16 + '\n')
+    lineNotifyMessage(line_notify_token, '\n' + final_message)
 
 url = 'https://e3p.nycu.edu.tw/calendar/view.php?view=upcoming'
 send_e3_hw_announcement(url)
