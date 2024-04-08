@@ -102,7 +102,6 @@ def send_e3_hw_announcement(url: str):
             message += title.text + '\n'
         if more_than_n_days:
             break
-        print(message)
         llm_prompt = prompt.format(message=message)
         #response = gemini_pro.invoke(llm_prompt).content
         #response = response.replace('*', '').replace('-', '')
