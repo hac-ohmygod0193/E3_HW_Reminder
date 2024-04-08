@@ -101,11 +101,10 @@ def send_e3_hw_announcement(url: str):
             message += title.text + '\n'
         if more_than_n_days:
             break
-        print(message)
         llm_prompt = prompt.format(message=message)
         response = gemini_pro.invoke(llm_prompt).content
         response = response.replace('*', '').replace('-', '')
-        final_message += (message + '\n'+ '=' * 16 + '\n')
+        final_message += (response + '\n'+ '=' * 16 + '\n')
     lineNotifyMessage(line_notify_token, '\n' + final_message)
 
 url = 'https://e3p.nycu.edu.tw/calendar/view.php?view=upcoming'
