@@ -4,37 +4,23 @@ import os
 import datetime
 import re
 from groq import Groq
-import random
-GOOGLE_API_KEY = os.environ["GOOGLE_API_KEY"]
-print(GOOGLE_API_KEY)
-api_key = os.environ["API_KEY"]
-print(api_key)
-'''
-groq_api_keys = [
-    os.environ["GROQ_API_KEY"],
-    os.environ["GROQ_API_KEY_1"],
-    os.environ["GROQ_API_KEY_2"],
-]
-selected_api_key = random.choice(groq_api_keys)
-'''
 
+# Load environment variables
+e3p_cookie = os.environ["E3P_COOKIE"]
+line_notify_token = os.environ["LINE_NOTIFY_TOKEN"]
+groq_api_keys = os.environ["GROQ_API_KEY"]
 client = Groq(
-    api_key=os.environ["GROQ_API_KEY_1"],
+    api_key=groq_api_keys,
 )
 model_mapping = {
     "0": "llama2-70b-4096",
     "1": "mixtral-8x7b-32768",
     "2": "gemma-7b-it",
-    "3": "gemini-pro",
 }
-
 
 current_time = datetime.datetime.now()
 current_date = current_time.date()
-# Load environment variables
-e3p_cookie = os.environ["E3P_COOKIE"]
-GOOGLE_API_KEY = os.environ["GOOGLE_API_KEY"]
-line_notify_token = os.environ["LINE_NOTIFY_TOKEN"]
+
 def groq_api(llm_prompt: str):
     select_model = "1"
     model = model_mapping[select_model]
@@ -52,28 +38,7 @@ def groq_api(llm_prompt: str):
     if model == "gemma-7b-it":
         response = response.replace('*', '').replace('-', '')
     return response
-def gemini_api(llm_prompt: str):
-    from langchain_google_genai import (
-        ChatGoogleGenerativeAI,
-        HarmBlockThreshold,
-        HarmCategory,
-    )
-    import google.generativeai as genai
-    # Configure generative AI
-    genai.configure()
-    gemini_pro = ChatGoogleGenerativeAI(
-        model="gemini-pro",
-        temperature=0.1,
-        safety_settings={
-            HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
-            HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
-        },
-    )
-    response = gemini_pro.invoke(llm_prompt).content
-    response = response.replace('*', '').replace('-', '')
-    return response
+
 def lineNotifyMessage(token, msg):
     headers = {
         "Authorization": "Bearer " + token,
