@@ -5,7 +5,7 @@ import datetime
 import re
 from groq import Groq
 import random
-print(os.environ["GROQ_API_KEY_1"])
+print(os.environ["API_KEY"])
 '''
 groq_api_keys = [
     os.environ["GROQ_API_KEY"],
