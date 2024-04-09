@@ -121,7 +121,7 @@ def send_e3_hw_announcement(url: str):
             message += '\n'+ response + '\n'
         final_message += (message + '\n課程:\n' + block_title[-1].text[12:]+'\n'+'=' * 16 + '\n')
     if (final_message == ""):
-        final_message = "\n恭喜! 近三日無作業公告"
+        final_message = "\n今天日期: " + str(current_date) + "\n恭喜! 近三日無作業公告"
     else:
         final_message = prefix_message + '\n' + final_message
     lineNotifyMessage(line_notify_token,  final_message)
