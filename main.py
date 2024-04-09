@@ -5,15 +5,17 @@ import datetime
 import re
 from groq import Groq
 import random
-
+'''
 groq_api_keys = [
     os.environ["GROQ_API_KEY"],
     os.environ["GROQ_API_KEY_1"],
     os.environ["GROQ_API_KEY_2"],
 ]
 selected_api_key = random.choice(groq_api_keys)
+'''
+print(os.environ["GROQ_API_KEY_1"])
 client = Groq(
-    api_key=selected_api_key,
+    api_key=os.environ["GROQ_API_KEY_1"],
 )
 model_mapping = {
     "0": "llama2-70b-4096",
