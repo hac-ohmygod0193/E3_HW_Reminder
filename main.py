@@ -5,6 +5,7 @@ import datetime
 import re
 from groq import Groq
 import random
+print(os.environ["GROQ_API_KEY_1"])
 '''
 groq_api_keys = [
     os.environ["GROQ_API_KEY"],
@@ -13,7 +14,7 @@ groq_api_keys = [
 ]
 selected_api_key = random.choice(groq_api_keys)
 '''
-print(os.environ["GROQ_API_KEY_1"])
+
 client = Groq(
     api_key=os.environ["GROQ_API_KEY_1"],
 )
