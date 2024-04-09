@@ -20,7 +20,7 @@ model_mapping = {
 
 current_time = datetime.datetime.now()
 current_date = current_time.date()
-
+print(current_date)
 def groq_api(llm_prompt: str):
     select_model = "1"
     model = model_mapping[select_model]
