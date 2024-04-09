@@ -27,9 +27,6 @@ jobs:
       - name: execute py script # run main.py
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-          GROQ_API_KEY_1: ${{ secrets.GROQ_API_KEY_1 }}
-          GROQ_API_KEY_2: ${{ secrets.GROQ_API_KEY_2 }}
-          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
           E3P_COOKIE: ${{ secrets.E3P_COOKIE }}
           LINE_NOTIFY_TOKEN: ${{ secrets.LINE_NOTIFY_TOKEN }}
         run:
