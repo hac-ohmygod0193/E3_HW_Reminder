@@ -22,19 +22,18 @@ git clone https://github.com/hac-ohmygod0193/auto-e3.git
 pip install -r requirements.txt
 ```
 Here you need to paste your own secret key to enable the power of E3 HW Reminder
-![image](https://github.com/hac-ohmygod0193/E3_HW_Reminder/assets/62164142/1b3f4133-b620-4ef9-9b14-2a33a16e1b52)
+![image](https://github.com/hac-ohmygod0193/E3_HW_Reminder/assets/62164142/ba78aaa4-7b95-4c5b-9f6e-2e4c0063526e)
+
 
 ### Setup Gemini APi secret token
-1. Head over to makersuite.google.com/app/apikey [visit](https://makersuite.google.com/app/apikey) and sign in with your Google account.
+1. Go to [Groq.com](https://console.groq.com/docs/quickstart) to apply your api key. 
 
-2. Under API keys, click the “Create API key in new project” button.
-![image](https://github.com/hac-ohmygod0193/auto-e3/assets/62164142/26c6a39c-3ef4-4e7f-a10f-09b25a8df063)
+2. Folow the instructions.
 
-3. generate google gemini api key
+3. generate groq api key .
 4. Copy the API key and keep it private. Do not publish or share the API key publicly.
-![image](https://github.com/hac-ohmygod0193/auto-e3/assets/62164142/9f6ccf15-9fec-41e9-9e32-a1c1c8776679)
 
-5. New Repository secrets `Name` called `GOOGLE_API_KEY` and paste the API key to `Secret` below
+5. New Repository secrets `Name` called `GROQ_API_KEY` and paste the API key to `Secret` below
 
 ### Setup Line Notify Token secret token
 1. Follow this [website](https://notify-bot.line.me/my/) to get the token as Secret
