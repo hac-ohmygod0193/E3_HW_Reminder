@@ -18,7 +18,7 @@ model_mapping = {
     "2": "gemma-7b-it",
 }
 
-current_time = datetime.datetime.now()
+current_time = datetime.datetime.now()+datetime.timedelta(hours=8)
 current_date = current_time.date()
 print(current_date)
 def groq_api(llm_prompt: str):
@@ -83,7 +83,7 @@ def send_e3_hw_announcement(url: str):
     prefix_message = "\n今天日期: " + str(
         current_date) + '\n' + "近三日的作業公告\n" + '=' * 16 + '\n'
     more_than_n_days = False
-    hw_time_delta = 3
+    hw_time_delta = 7
     for i in range(len(tags)):
         block = tags[i]
         headline = headlines[i]
