@@ -7,9 +7,9 @@ from groq import Groq
 import random
 
 groq_api_keys = [
-    os.environ.get("GROQ_API_KEY"),
-    os.environ.get("GROQ_API_KEY_1"),
-    os.environ.get("GROQ_API_KEY_2"),
+    os.environ.["GROQ_API_KEY"],
+    os.environ.["GROQ_API_KEY_1"],
+    os.environ.["GROQ_API_KEY_2"],
 ]
 selected_api_key = random.choice(groq_api_keys)
 client = Groq(
