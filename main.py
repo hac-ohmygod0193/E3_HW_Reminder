@@ -80,6 +80,7 @@ def send_e3_hw_announcement(url: str):
                               attrs={"class": "name d-inline-block"})
     tags = soup.find_all(name="div", attrs={"class": "event mt-3"})
     final_message = ""
+    coming_soon_message = ""
     prefix_message = "\n今天日期: " + str(
         current_date) + '\n' + "近三日的作業公告\n" + '=' * 16 + '\n'
     more_than_n_days = False
