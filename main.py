@@ -93,6 +93,7 @@ def send_e3_hw_announcement(url: str):
         for title in block_title[:2]:
             if title.text == '課程事件':
                 continue
+            message += title.text + '\n'
             date_pattern = r"\d{2}月 \d{2}日"
             date_match = re.search(date_pattern, title.text)
             if date_match:
@@ -110,7 +111,7 @@ def send_e3_hw_announcement(url: str):
                     else:
                         more_than_n_days = True
                         break
-            message += title.text + '\n'
+           
         if more_than_n_days:
             break
         if block_title[2].text == '\n':
@@ -120,11 +121,18 @@ def send_e3_hw_announcement(url: str):
             response = groq_api(llm_prompt)
             message += '\n'+ response + '\n'
         final_message += (message + '\n課程:\n' + block_title[-1].text[12:]+'\n'+'=' * 16 + '\n')
-    if (final_message == ""):
-        final_message = "\n今天日期: " + str(current_date) + "\n恭喜! 近三日無作業公告"
+        if more_than_n_days:
+            if(final_message == ""):
+                coming_soon_message = "\n今天日期: " + str(current_date) + "\n恭喜!近三日內無作業公告\n"
+                coming_soon_message = "最接近的作業公告是:\n" + message + '\n課程:\n' + block_title[-1].text[12:]+'\n'+'=' * 16 + '\n'
+            break
+        final_message += (message + '\n課程:\n' + block_title[-1].text[12:]+'\n'+'=' * 16 + '\n')
+    if final_message == "":
+        final_message = coming_soon_message
     else:
         final_message = prefix_message + '\n' + final_message
-    lineNotifyMessage(line_notify_token,  final_message)
+    print(final_message)
+    #lineNotifyMessage(line_notify_token,  final_message)
 
 url = 'https://e3p.nycu.edu.tw/calendar/view.php?view=upcoming'
 send_e3_hw_announcement(url)
