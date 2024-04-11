@@ -79,6 +79,7 @@ def send_e3_hw_announcement(url: str):
     headlines = soup.find_all(name="h3",
                               attrs={"class": "name d-inline-block"})
     tags = soup.find_all(name="div", attrs={"class": "event mt-3"})
+    print(tags)
     final_message = ""
     coming_soon_message = ""
     prefix_message = "\n今天日期: " + str(
