@@ -159,8 +159,7 @@ def send_e3_hw_announcement(url: str):
         final_message = coming_soon_message
     else:
         final_message = prefix_message + '\n' + final_message
-    print(final_message)
-    #lineNotifyMessage(line_notify_token,  final_message)
+    lineNotifyMessage(line_notify_token,  final_message)
 
 url = 'https://e3p.nycu.edu.tw/calendar/view.php?view=upcoming'
 send_e3_hw_announcement(url)
