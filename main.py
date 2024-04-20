@@ -115,7 +115,6 @@ def send_e3_hw_announcement(url: str):
         current_date) + '\n' "近三日的作業公告\n" + '=' * 16 + '\n'
     more_than_n_days = False
     hw_time_delta = 3
-    print(tags)
     for i in range(len(tags)):
         block = tags[i]
         headline = headlines[i]
