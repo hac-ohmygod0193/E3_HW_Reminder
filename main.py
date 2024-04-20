@@ -152,7 +152,7 @@ def send_e3_hw_announcement(url: str):
         if more_than_n_days:
             if(final_message == ""):
                 coming_soon_message = "\n今天日期: " + str(current_date) + "\n恭喜!近三日內無作業公告\n"
-                coming_soon_message = "最接近的作業公告是:\n" + message + '\n課程:\n' + block_title[-1].text[12:]+'\n'+'=' * 16 + '\n'
+                coming_soon_message = coming_soon_message+"最靠近的作業公告是:\n" + message + '\n課程:\n' + block_title[-1].text[12:]+'\n'+'=' * 16 + '\n'
             break
         final_message += (message + '\n課程:\n' + block_title[-1].text[12:]+'\n'+'=' * 16 + '\n')
     if final_message == "":
