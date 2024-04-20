@@ -21,6 +21,7 @@ model_mapping = {
 current_time = datetime.datetime.now()+datetime.timedelta(hours=8)
 current_date = current_time.date()
 print(current_date)
+
 def groq_api(llm_prompt: str):
     select_model = "1"
     model = model_mapping[select_model]
@@ -38,7 +39,28 @@ def groq_api(llm_prompt: str):
     if model == "gemma-7b-it":
         response = response.replace('*', '').replace('-', '')
     return response
-
+def gemini_api(llm_prompt: str):
+    from langchain_google_genai import (
+        ChatGoogleGenerativeAI,
+        HarmBlockThreshold,
+        HarmCategory,
+    )
+    import google.generativeai as genai
+    # Configure generative AI
+    genai.configure()
+    gemini_pro = ChatGoogleGenerativeAI(
+        model="gemini-pro",
+        temperature=0.1,
+        safety_settings={
+            HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+            HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+        },
+    )
+    response = gemini_pro.invoke(llm_prompt).content
+    response = response.replace('*', '').replace('-', '')
+    return response
 def lineNotifyMessage(token, msg):
     headers = {
         "Authorization": "Bearer " + token,
@@ -64,26 +86,32 @@ Don't include any unnecessary information.
 def send_e3_hw_announcement(url: str):
     """Fetch the page content"""
     headers = {
-        "Cookie":
-        e3p_cookie,
-        "User-Agent":
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+        "authority": "e3p.nycu.edu.tw",
+        "method": "GET",
+        "path": "/my/",
+        "scheme": "https",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "zh-TW,zh;q=0.9",
+        "Cookie": e3p_cookie,
+        "Referer": "https://portal.nycu.edu.tw/",
     }
+
     requests.adapters.DEFAULT_RETRIES = 5
-    html = requests.get(url, headers=headers).text
-
+    session = requests.Session()
+    html = session.get(url, headers=headers)
     with open('test.html', 'w', encoding='utf-8') as f:
-        f.write(html)
+        f.write(html.text)
 
-    soup = BeautifulSoup(html, "html.parser")
+    soup = BeautifulSoup(html.text, "html.parser")
     headlines = soup.find_all(name="h3",
                               attrs={"class": "name d-inline-block"})
     tags = soup.find_all(name="div", attrs={"class": "event mt-3"})
-    print(tags)
     final_message = ""
     coming_soon_message = ""
     prefix_message = "\n今天日期: " + str(
-        current_date) + '\n' + "近三日的作業公告\n" + '=' * 16 + '\n'
+        current_date) + '\n' "近三日的作業公告\n" + '=' * 16 + '\n'
     more_than_n_days = False
     hw_time_delta = 3
     for i in range(len(tags)):
@@ -95,9 +123,9 @@ def send_e3_hw_announcement(url: str):
         for title in block_title[:2]:
             if title.text == '課程事件':
                 continue
-            message += title.text + '\n'
             date_pattern = r"\d{2}月 \d{2}日"
             date_match = re.search(date_pattern, title.text)
+            message += title.text + '\n'
             if date_match:
                 date = date_match.group(0)
                 date_obj = datetime.datetime.strptime(date, "%m月 %d日")
@@ -113,16 +141,13 @@ def send_e3_hw_announcement(url: str):
                     else:
                         more_than_n_days = True
                         break
-           
-        if more_than_n_days:
-            break
+        
         if block_title[2].text == '\n':
             response = ""
         else:
             llm_prompt = prompt.format(message=block_title[2].text)
-            response = groq_api(llm_prompt)
+            response = gemini_api(llm_prompt)
             message += '\n'+ response + '\n'
-        final_message += (message + '\n課程:\n' + block_title[-1].text[12:]+'\n'+'=' * 16 + '\n')
         if more_than_n_days:
             if(final_message == ""):
                 coming_soon_message = "\n今天日期: " + str(current_date) + "\n恭喜!近三日內無作業公告\n"
