@@ -7,6 +7,7 @@ from groq import Groq
 
 # Load environment variables
 e3p_cookie = os.environ["E3P_COOKIE"]
+GOOGLE_API_KEY = os.environ["GOOGLE_API_KEY"]
 line_notify_token = os.environ["LINE_NOTIFY_TOKEN"]
 groq_api_keys = os.environ["GROQ_API_KEY"]
 client = Groq(
@@ -103,7 +104,7 @@ def send_e3_hw_announcement(url: str):
     html = session.get(url, headers=headers)
     with open('test.html', 'w', encoding='utf-8') as f:
         f.write(html.text)
-
+    print(html)
     soup = BeautifulSoup(html.text, "html.parser")
     headlines = soup.find_all(name="h3",
                               attrs={"class": "name d-inline-block"})
@@ -114,6 +115,7 @@ def send_e3_hw_announcement(url: str):
         current_date) + '\n' "近三日的作業公告\n" + '=' * 16 + '\n'
     more_than_n_days = False
     hw_time_delta = 3
+    print(tags)
     for i in range(len(tags)):
         block = tags[i]
         headline = headlines[i]
